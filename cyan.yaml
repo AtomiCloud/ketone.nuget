@@ -1,0 +1,10 @@
+username: atomi
+name: nuget
+description: CyanPrint Template to create Nuget Libraries
+project: https://github.com/AtomiCloud/ketone.nuget
+source: https://github.com/AtomiCloud/ketone.nuget
+email: ernest@atomi.cloud
+tags: ['atomicloud', 'lib', 'csharp']
+readme: cyan/README.MD
+processors: ['cyan/default']
+plugins: []

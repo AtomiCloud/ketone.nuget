@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: 'Setup the repository'
+    cmds:
+      - dotnet restore
+
+      - ./scripts/local/secrets.sh
