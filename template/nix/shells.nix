@@ -2,12 +2,7 @@
 with env;
 {
   default = pkgs.mkShell {
-    buildInputs = system ++ main ++ lint ++ dev
-
-      /*
-        
-      */
-    ;
+    buildInputs = system ++ main ++ lint ++ dev;
     inherit shellHook;
   };
   ci = pkgs.mkShell {
@@ -15,7 +10,7 @@ with env;
     inherit shellHook;
   };
   releaser = pkgs.mkShell {
-    buildInputs = system ++ main ++ lint + releaser;
+    buildInputs = system ++ main ++ lint ++ releaser;
     inherit shellHook;
   };
 }
