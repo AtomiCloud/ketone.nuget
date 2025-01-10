@@ -5,5 +5,9 @@ tasks:
     desc: 'Setup the repository'
     cmds:
       - dotnet restore
-
       - ./scripts/local/secrets.sh
+
+  build:
+    desc: 'Build the library'
+    cmds:
+      - dotnet build
