@@ -35,6 +35,8 @@ let
           curl
           infisical
 
+          xmlstarlet
+
           treefmt
           gitlint
           shellcheck
