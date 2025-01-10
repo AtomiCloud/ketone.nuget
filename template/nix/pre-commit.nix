@@ -82,11 +82,6 @@ pre-commit-lib.run {
       language = "system";
       pass_filenames = true;
     };
-
-    /*
-      
-    */
-
   };
 
   settings = {
