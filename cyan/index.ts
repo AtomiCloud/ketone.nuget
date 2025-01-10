@@ -3,8 +3,11 @@ import { Cyan, GlobType, IDeterminism, IInquirer, StartTemplateWithLambda } from
 StartTemplateWithLambda(async (i: IInquirer, d: IDeterminism): Promise<Cyan> => {
   const name = await i.text('Name', "Nuget Package's Name. Please use Pascal Case");
 
-  const platform = await i.text('Platform', "AtomiCloud LPSM Service Tree's Platform");
-  const service = await i.text('Service', "AtomiCloud LPSM Service Tree's Service");
+  const p = await i.text('Platform', "AtomiCloud LPSM Service Tree's Platform");
+  const s = await i.text('Service', "AtomiCloud LPSM Service Tree's Service");
+
+  const platform = p.toLowerCase();
+  const service = s.toLowerCase();
 
   const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   const namespace = capitalize(platform) + capitalize(service);
@@ -20,6 +23,12 @@ StartTemplateWithLambda(async (i: IInquirer, d: IDeterminism): Promise<Cyan> => 
             glob: '**/*',
             root: 'template',
             type: GlobType.Template,
+            exclude: ['**/logo.png'],
+          },
+          {
+            glob: '**/logo.png',
+            root: 'template/',
+            type: GlobType.Copy,
             exclude: [],
           },
         ],
