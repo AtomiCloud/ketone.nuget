@@ -20,10 +20,6 @@ let
         yq = yq-go;
         dotnet = dotnet-sdk_9;
 
-        /*
-        
-        */
-
         inherit
 
           # standard
@@ -31,6 +27,7 @@ let
           findutils
           gnugrep
           gnused
+          gcc
           jq
           bash
 
@@ -41,10 +38,6 @@ let
           treefmt
           gitlint
           shellcheck
-
-          /*
-          
-          */
           ;
       }
     );

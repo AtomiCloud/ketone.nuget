@@ -17,14 +17,14 @@ pre-commit-lib.run {
       enable = false;
     };
 
-    a-dotnet-lint-app = {
+    a-dotnet-lint-lib = {
       enable = true;
-      name = "Lint .NET 'App' Project";
-      description = "Run formatter for .NET Project 'App'";
-      entry = "${packages.dotnet}/bin/dotnet format style --no-restore --severity info --verify-no-changes -v d ./App/App.csproj";
+      name = "Lint .NET 'Lib' Project";
+      description = "Run formatter for .NET Project 'Lib'";
+      entry = "${packages.dotnet}/bin/dotnet format style --no-restore --severity info --verify-no-changes -v d ./lib/lib.csproj";
       language = "system";
       pass_filenames = false;
-      files = "^App/.*\\.cs$";
+      files = "^lib/.*\\.cs$";
     };
 
     a-infisical = {

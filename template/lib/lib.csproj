@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>let___namespace___</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Description>let___desc___</Description>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>RepositoryUrl</RepositoryUrl>
+    <Authors>Ernest Ng</Authors>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <PackageId>AtomiCloud.let___name___</PackageId>
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\README.MD" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="Assets\logo.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+</Project>
