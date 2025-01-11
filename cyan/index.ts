@@ -11,6 +11,7 @@ StartTemplateWithLambda(async (i: IInquirer, d: IDeterminism): Promise<Cyan> => 
 
   const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   const namespace = capitalize(platform) + capitalize(service);
+  const svc = capitalize(service);
 
   const desc = await i.text('Description', "Nuget Package's Description");
 
@@ -35,6 +36,7 @@ StartTemplateWithLambda(async (i: IInquirer, d: IDeterminism): Promise<Cyan> => 
         config: {
           vars: {
             name,
+            svc,
             platform,
             service,
             namespace,
