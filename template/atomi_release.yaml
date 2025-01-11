@@ -42,7 +42,7 @@ plugins:
       assets:
         - Changelog.md
         - docs/developer/CommitConventions.md
-        - lib/lib.csproj
+        - let___svc___/let___svc___.csproj
 
   # Github Release
   - module: '@semantic-release/github'

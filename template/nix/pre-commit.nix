@@ -17,14 +17,24 @@ pre-commit-lib.run {
       enable = false;
     };
 
-    a-dotnet-lint-lib = {
+    a-dotnet-lint-let___svc___ = {
       enable = true;
-      name = "Lint .NET 'Lib' Project";
-      description = "Run formatter for .NET Project 'Lib'";
-      entry = "${packages.dotnet}/bin/dotnet format style --no-restore --severity info --verify-no-changes -v d ./lib/lib.csproj";
+      name = "Lint .NET 'let___svc___' Project";
+      description = "Run formatter for .NET Project 'let___svc___'";
+      entry = "${packages.dotnet}/bin/dotnet format style --no-restore --severity info --verify-no-changes -v d ./let___svc___/let___svc___.csproj";
       language = "system";
       pass_filenames = false;
-      files = "^lib/.*\\.cs$";
+      files = "^let___svc___/.*\\.cs$";
+    };
+
+    a-dotnet-lint-unit-test = {
+      enable = true;
+      name = "Lint .NET 'Unit Test' Project";
+      description = "Run formatter for .NET Project 'Unit Test'";
+      entry = "${packages.dotnet}/bin/dotnet format style --no-restore --severity info --verify-no-changes -v d ./UnitTest/UnitTest.csproj";
+      language = "system";
+      pass_filenames = false;
+      files = "^UnitTest/.*\\.cs$";
     };
 
     a-infisical = {

@@ -6,3 +6,5 @@ Chsarpier
 .idea
 .direnv
 .pre-commit-config.yaml
+dotCover.Output/
+dotCover.Output.*

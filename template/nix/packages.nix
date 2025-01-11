@@ -19,6 +19,7 @@ let
 
         yq = yq-go;
         dotnet = dotnet-sdk_9;
+        jdk = zulu17;
 
         inherit
 
