@@ -3,6 +3,9 @@ name: CI-CD
 on:
   push:
 
+env:
+  COVERAGE_THRESHOLD: 80
+
 jobs:
   precommit:
     name: Pre-commit Check
@@ -57,7 +60,7 @@ jobs:
 
       # pre commit
       - name: Run Test
-        run: nix develop .#ci -c ./scripts/ci/test.sh
+        run: nix develop .#ci -c ./scripts/ci/test.sh ${{ env.COVERAGE_THRESHOLD }}
 
   publish:
     name: Publish Current Commit
