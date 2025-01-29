@@ -31,6 +31,7 @@ let
           gcc
           jq
           bash
+          bc
 
           git
           curl

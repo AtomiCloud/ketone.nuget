@@ -11,6 +11,7 @@ with packages;
     yq
     curl
     xmlstarlet
+    bc
   ];
 
   dev = [
