@@ -1,5 +1,8 @@
 version: '3'
 
+env:
+  COVERAGE_THRESHOLD: 80
+
 tasks:
   setup:
     desc: 'Setup the repository'
@@ -22,7 +25,7 @@ tasks:
     desc: 'Test the library with coverage'
     silent: true
     cmds:
-      - ./scripts/ci/test.sh
+      - ./scripts/ci/test.sh ${COVERAGE_THRESHOLD}
   test:cover:html:
     desc: 'Test the library with html output'
     silent: true
