@@ -5,6 +5,7 @@ let
       with atomi;
       {
         inherit
+          atomiutils
           sg
           pls;
       }
@@ -17,27 +18,14 @@ let
       with pkgs-2411;
       {
 
-        yq = yq-go;
         dotnet = dotnet-sdk_9;
         jdk = zulu17;
 
         inherit
-
-          # standard
-          coreutils
-          findutils
-          gnugrep
-          gnused
-          gcc
-          jq
-          bash
-          bc
+          xmlstarlet
 
           git
-          curl
           infisical
-
-          xmlstarlet
 
           treefmt
           gitlint
