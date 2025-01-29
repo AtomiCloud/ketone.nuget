@@ -3,9 +3,7 @@ set -eou pipefail
 
 # install dependencies
 echo "⬇️ Installing Dependencies..."
-
 dotnet restore
-
 echo "✅ Done!"
 
 # run precommit

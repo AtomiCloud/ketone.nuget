@@ -13,8 +13,8 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1.2.1
-      - uses: AtomiCloud/actions.cache-nuget@v1.0.1
+      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
 
       # pre commit
       - name: Run pre-commit
@@ -29,14 +29,14 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1.2.1
-      - uses: AtomiCloud/actions.cache-nuget@v1.0.1
+      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
 
       # sonarqube
       - name: Build and analyze
         env:
-          PLATFORM: 'let___platform___'
-          SERVICE: 'let___service___'
+          ATOMI_PLATFORM: 'let___platform___'
+          ATOMI_SERVICE: 'let___service___'
 
           SONAR_ORG: 'atomi-cloud'
           SONAR_HOST: 'https://sonarcloud.io'
@@ -52,8 +52,8 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1.2.1
-      - uses: AtomiCloud/actions.cache-nuget@v1.0.1
+      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
 
       # pre commit
       - name: Run Test
@@ -68,13 +68,10 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1.2.1
-      - uses: AtomiCloud/actions.cache-nuget@v1.0.1
+      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
 
-        # Publish
-      - uses: rlespinasse/github-slug-action@v5.x
-        with:
-          short-length: 7
+      # Publish
       - name: Publish
         env:
           GITHUB_REPO_REF: ${{ github.repository }}
@@ -101,14 +98,11 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1.2.1
-      - uses: AtomiCloud/actions.cache-npm@v1.0.1
-      - uses: AtomiCloud/actions.cache-nuget@v1.0.1
+      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.cache-npm@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
 
-      # action
-      - uses: rlespinasse/github-slug-action@v5.x
-        with:
-          short-length: 7
+      # Release
       - name: Release
         env:
           GITHUB_REPO_REF: ${{ github.repository }}
