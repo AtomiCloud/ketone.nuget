@@ -11,8 +11,6 @@ public static class Initializer
 {
     public static void Initialize()
     {
-        AssertionConfiguration.Current.Equivalency.Modify(o =>
-            o.Using(new ResultEquivalencyStep())
-        );
+        AssertionConfiguration.Current.Equivalency.Modify(o => o.Using(new ResultEquivalencyStep()));
     }
 }
