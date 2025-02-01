@@ -2,6 +2,7 @@ version: '3'
 
 env:
   COVERAGE_THRESHOLD: 80
+  ATOMI_SERVICE: let___svc___
 
 tasks:
   setup:
@@ -31,7 +32,7 @@ tasks:
     silent: true
     cmds:
       - dotnet build --no-incremental > /dev/null
-      - dotnet dotcover test --dcReportType=HTML --dcFilters=-:testhost
+      - dotnet dotcover test --dcReportType=HTML
   test:clean:
     desc: 'Clean the test results'
     cmds:
