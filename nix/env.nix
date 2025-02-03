@@ -2,6 +2,7 @@
 with packages;
 {
   system = [
+    sg
     atomiutils
   ];
 
