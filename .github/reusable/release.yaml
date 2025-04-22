@@ -10,9 +10,6 @@ on:
         required: true
         type: string
 
-concurrency:
-  group: release
-
 jobs:
   release:
     name: Semantic Release
