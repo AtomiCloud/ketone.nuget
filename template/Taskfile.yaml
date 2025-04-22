@@ -1,7 +1,18 @@
 version: '3'
 
+includes:
+  unit:
+    taskfile: tasks/Taskfile.test.yaml
+    vars:
+      TEST_DIR: UnitTest
+      TARGET: let___svc___
+  int:
+    taskfile: tasks/Taskfile.test.yaml
+    vars:
+      TEST_DIR: IntTest
+      TARGET: let___svc___
+
 env:
-  COVERAGE_THRESHOLD: 80
   ATOMI_SERVICE: let___svc___
 
 tasks:
@@ -17,24 +28,7 @@ tasks:
     cmds:
       - dotnet build
 
-  test:
-    desc: 'Test the library'
+  deps:
+    desc: 'Update all dependencies'
     cmds:
-      - dotnet test
-
-  test:cover:
-    desc: 'Test the library with coverage'
-    silent: true
-    cmds:
-      - ./scripts/ci/test.sh ${COVERAGE_THRESHOLD}
-  test:cover:html:
-    desc: 'Test the library with html output'
-    silent: true
-    cmds:
-      - dotnet build --no-incremental > /dev/null
-      - dotnet dotcover test --dcReportType=HTML
-  test:clean:
-    desc: 'Clean the test results'
-    cmds:
-      - rm -rf ./dotCover.Output
-      - rm ./dotCover.Output.*
+      - dotnet outdated -u:prompt

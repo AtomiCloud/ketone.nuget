@@ -1,0 +1,38 @@
+name: CD
+
+on:
+  workflow_call:
+    inputs:
+      atomi_platform:
+        required: true
+        type: string
+      atomi_service:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+
+jobs:
+  publish:
+    name: Publish NuGet Package
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-4x8-with-cache
+      - nscloud-cache-size-50gb
+      - nscloud-cache-tag-${{ inputs.atomi_platform }}-${{ inputs.atomi_service }}-nix-store-cache
+    steps:
+      # Setup
+      - uses: AtomiCloud/actions.setup-nix@v2
+        with:
+          auth-bot-app-id: ${{ vars.AUTH_BOT_APP_ID }}
+          auth-bot-secret-key: ${{ secrets.AUTH_BOT_SECRET_KEY }}
+
+      - uses: AtomiCloud/actions.cache-npm@v1
+      - uses: AtomiCloud/actions.cache-nuget@v1
+
+      # Build and Publish
+      - name: Build and Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: nix develop .#ci -c ./scripts/ci/publish.sh ${{ inputs.target }}

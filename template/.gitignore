@@ -9,3 +9,6 @@ Chsarpier
 dotCover.Output/
 dotCover.Output.*
 *.*.DotSettings.user
+**/TestResults/
+coverage/
+.vscode/

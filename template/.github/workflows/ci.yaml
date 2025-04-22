@@ -1,15 +1,11 @@
-name: CI-CD
+name: CI
 
 on:
   push:
 
-env:
-  COVERAGE_THRESHOLD: 80
-  ATOMI_SERVICE: let___svc___
-
 jobs:
   precommit:
-    name: Pre-commit Check
+    name: Pre-Commit
     runs-on:
       - nscloud-ubuntu-22.04-amd64-4x8-with-cache
       - nscloud-cache-size-50gb
@@ -17,116 +13,61 @@ jobs:
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.setup-nix@v2
       - uses: AtomiCloud/actions.cache-nuget@v1
 
       # Pre Commit
       - name: Run pre-commit
         run: nix develop .#ci -c ./scripts/ci/pre-commit.sh
 
-  sonarqube:
-    name: SonarQube
+  unit-test:
+    name: Unit Tests
     runs-on:
       - nscloud-ubuntu-22.04-amd64-4x8-with-cache
       - nscloud-cache-size-50gb
-      - nscloud-cache-tag-let___platform___-let___service___-sonarqube-cache
+      - nscloud-cache-tag-let___platform___-let___service___-unit-test-cache
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1
-      - uses: AtomiCloud/actions.cache-nuget@v1
-
-      # Sonarqube
-      - name: Build and analyze
-        env:
-          ATOMI_PLATFORM: 'let___platform___'
-          ATOMI_SERVICE: 'let___service___'
-
-          SONAR_ORG: 'atomi-cloud'
-          SONAR_HOST: 'https://sonarcloud.io'
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: nix develop .#sonar -c scripts/ci/sonarqube.sh
-
-  test:
-    name: Test and Coverage
-    runs-on:
-      - nscloud-ubuntu-22.04-amd64-4x8-with-cache
-      - nscloud-cache-size-50gb
-      - nscloud-cache-tag-let___platform___-let___service___-test-cache
-      - nscloud-git-mirror-1gb
-    steps:
-      # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.setup-nix@v2
       - uses: AtomiCloud/actions.cache-nuget@v1
 
       # Test
-      - name: Run Test
-        env:
-          ATOMI_SERVICE: ${{ env.ATOMI_SERVICE }}
-        run: nix develop .#ci -c ./scripts/ci/test.sh ${{ env.COVERAGE_THRESHOLD }}
+      - name: Run Unit Tests
+        run: nix develop .#ci -c ./scripts/ci/test.sh UnitTest
 
-  publish:
-    name: Publish Current Commit
+      # Connect to Codecov
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          files: ./UnitTest/TestResults/TestResults.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  unit-test-coverage:
+    name: Unit Test Coverage
     runs-on:
       - nscloud-ubuntu-22.04-amd64-4x8-with-cache
       - nscloud-cache-size-50gb
-      - nscloud-cache-tag-let___platform___-let___service___-publish-nuget-cache
+      - nscloud-cache-tag-let___platform___-let___service___-unit-test-coverage-cache
       - nscloud-git-mirror-1gb
     steps:
       # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1
+      - uses: AtomiCloud/actions.setup-nix@v2
       - uses: AtomiCloud/actions.cache-nuget@v1
 
-      # Publish
-      - name: Publish
-        env:
-          GITHUB_REPO_REF: ${{ github.repository }}
-          GITHUB_SHA: ${{ github.sha }}
-          GITHUB_BRANCH: ${{ env.GITHUB_REF_SLUG_URL }}
+      # Coverage
+      - name: Get Unit Test Coverage
+        run: nix develop .#ci -c ./scripts/local/cover.sh UnitTest let___svc___
 
-          RELEASE: 'false'
-
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: nix develop .#ci -c scripts/ci/publish.sh
-
-  release:
-    name: Semantic Release
-    needs:
-      - precommit
-      - publish
-      - test
-      - sonarqube
-
-    if: github.ref == 'refs/heads/main'
-    runs-on:
-      - nscloud-ubuntu-22.04-amd64-4x8-with-cache
-      - nscloud-cache-size-50gb
-      - nscloud-cache-tag-let___platform___-let___service___-releaser-nix-store-cache
-      - nscloud-git-mirror-1gb
-    steps:
-      # Setup
-      - uses: AtomiCloud/actions.setup-nix@v1
-      - uses: AtomiCloud/actions.cache-npm@v1
-      - uses: AtomiCloud/actions.cache-nuget@v1
-
-      # Release
-      - name: Release
-        env:
-          GITHUB_REPO_REF: ${{ github.repository }}
-          GITHUB_SHA: ${{ github.sha }}
-          GITHUB_BRANCH: ${{ env.GITHUB_REF_SLUG_URL }}
-
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        run: nix develop .#releaser -c scripts/ci/release.sh
-      - name: Publish
-        env:
-          GITHUB_REPO_REF: ${{ github.repository }}
-          GITHUB_SHA: ${{ github.sha }}
-          GITHUB_BRANCH: ${{ env.GITHUB_REF_SLUG_URL }}
-
-          RELEASE: 'true'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: nix develop .#ci -c scripts/ci/publish.sh
+      # Connect to Codecov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          flags: unit
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/UnitTest/coverage.cobertura.xml

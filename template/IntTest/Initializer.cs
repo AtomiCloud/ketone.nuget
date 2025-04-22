@@ -1,11 +1,11 @@
 using CarboxylicLithiumTestHelper;
 using FluentAssertions;
 using FluentAssertions.Extensibility;
-using UnitTest;
+using IntTest;
 
 [assembly: AssertionEngineInitializer(typeof(Initializer), nameof(Initializer.Initialize))]
 
-namespace UnitTest;
+namespace IntTest;
 
 public static class Initializer
 {
